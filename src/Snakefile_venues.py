@@ -9,7 +9,7 @@ def load_venues():
             venues[id] = True
     return venues
 
-VENUES = list(load_venues())[:500]
+VENUES = list(load_venues())[:1000]
 
 rule get_venue_info:
     output:
@@ -30,15 +30,15 @@ rule cat_venues:
         expand(INT / 'tmp/venue_tab/{id}.tsv', id=VENUES)
     output:
         INT / 'tmp/venues.tsv'
-    conda:
-        REQ / 'cat.yaml'
+    params:
+        dir = INT / 'tmp/venue_tab'
     shell:
-        'python-cath {input} {output}'
+        'python cat_tables.py {params.dir} {output}'
 
 rule gpt_venues:
     input:
+        INT / 'tmp/venues.tsv',
         RAW / 'venues.csv',
-        INT / 'tmp/venues.tsv'
     output:
         INT / 'venues.csv'
     shell:

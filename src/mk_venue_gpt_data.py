@@ -20,6 +20,6 @@ cols = [
     "crossStreet",
     "neighborhood",
 ]
-dat = pd.read_csv(venue_csv, delimiter=",")[cols]
+dat = pd.read_csv(venue_csv, on_bad_lines = 'warn')[cols]
 df = pd.merge(dat, cats, on="id", how="left")
 df.to_csv(out_csv, index=False)
