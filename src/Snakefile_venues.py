@@ -9,7 +9,7 @@ def load_venues():
             venues[id] = True
     return venues
 
-VENUES = ['5275501b11d23f6cc01041fa', '4f21bcb7a17c052b073720da'] #load_venues()
+VENUES = list(load_venues())[:500]
 
 rule get_venue_info:
     output:
@@ -17,6 +17,29 @@ rule get_venue_info:
     shell:
         'python query_fsq.py {wildcards.id} {output}'
 
-rule all_venues:
+rule format_venue_info:
     input:
-        expand(INT / 'venue_json/{id}.json', id=VENUES)
+        INT / 'venue_json/{id}.json'
+    output:
+        INT / 'tmp/venue_tab/{id}.tsv'
+    shell:
+        'python mk_venue_table.py {wildcards.id} {input} {output}'
+
+rule cat_venues:
+    input:
+        expand(INT / 'tmp/venue_tab/{id}.tsv', id=VENUES)
+    output:
+        INT / 'tmp/venues.tsv'
+    conda:
+        REQ / 'cat.yaml'
+    shell:
+        'python-cath {input} {output}'
+
+rule gpt_venues:
+    input:
+        RAW / 'venues.csv',
+        INT / 'tmp/venues.tsv'
+    output:
+        INT / 'venues.csv'
+    shell:
+        'python mk_venue_gpt_data.py {input} {output}'

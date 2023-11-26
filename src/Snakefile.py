@@ -2,5 +2,6 @@ include: "Snakefile_const.py"
 include: "Snakefile_venues.py"
 
 
-#rule all:
-#    input:
+rule all:
+    input:
+        INT / 'venues.csv'
