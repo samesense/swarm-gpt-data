@@ -39,7 +39,8 @@ rule gpt_venues:
     input:
         INT / 'tmp/venues.tsv',
         RAW / 'venues.csv',
+        RAW / 'checkins.csv',
     output:
-        INT / 'venues.csv'
+        INT / 'gpt_data.csv'
     shell:
         'python mk_venue_gpt_data.py {input} {output}'

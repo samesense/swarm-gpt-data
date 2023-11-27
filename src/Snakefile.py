@@ -4,4 +4,4 @@ include: "Snakefile_venues.py"
 
 rule all:
     input:
-        INT / 'venues.csv'
+        INT / 'gpt_data.csv'
