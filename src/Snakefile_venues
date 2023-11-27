@@ -9,7 +9,7 @@ def load_venues():
             venues[id] = True
     return venues
 
-VENUES = list(load_venues())[:1000]
+VENUES = load_venues()
 
 rule get_venue_info:
     output:
