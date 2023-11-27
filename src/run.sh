@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
-snakemake -s Snakefile.py \
+snakemake -s Snakefile \
 	-j1 \
 	--rerun-triggers mtime \
-	-p all_venues
+	--rerun-incomplete \
+	-p all

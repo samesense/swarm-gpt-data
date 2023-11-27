@@ -1,0 +1,7 @@
+include: "Snakefile_const"
+include: "Snakefile_venues"
+
+
+rule all:
+    input:
+        INT / 'gpt_data.csv'
